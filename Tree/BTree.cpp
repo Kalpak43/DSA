@@ -31,11 +31,11 @@ bool searchElement(Node<int> *root, int n)
         return 1;
     }
 
-    bool temp = searchElement(root->left, n);
-    if (temp)
-        return 1;
+    // bool temp = searchElement(root->left, n);
+    // if (temp)
+    //     return 1;
 
-    return searchElement(root->right, n);
+    return searchElement(root->left, n) || searchElement(root->right, n);
 }
 
 void insertLevelOrder(Node<int> *root, int n)
@@ -210,7 +210,7 @@ void zigzagTraversal(Node<int> *root) {
         Node<int> *temp = q.front();
         q.pop();
         cout << temp->data;
-        if(traverse)
+        // incomplete
     }
 }
 
@@ -223,8 +223,8 @@ int main()
 
     drawTree(root);
     cout << endl;    
-    Node<int> *temp = LCA(root, root->left->left->left, root->left->right);
-    cout << temp->data << endl;
+
+    cout << searchElement(root, 97) << endl;
 
     return 0;
 }
