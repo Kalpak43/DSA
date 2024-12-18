@@ -3,7 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
 #include "BTree.h"
+#include "../utils.h"
 using namespace std;
 
 int maxElement(Node<int> *root)
@@ -197,16 +199,19 @@ Node<int> *LCA(Node<int> *root, Node<int> *a, Node<int> *b)
     return (left ? left : right);
 }
 
-void zigzagTraversal(Node<int> *root) {
+void zigzagTraversal(Node<int> *root)
+{
 
-    if(!root) return;
+    if (!root)
+        return;
 
     queue<Node<int> *> q;
     q.push(root);
 
     bool traverse = 0;
 
-    while(!q.empty()) {
+    while (!q.empty())
+    {
         Node<int> *temp = q.front();
         q.pop();
         cout << temp->data;
@@ -214,17 +219,47 @@ void zigzagTraversal(Node<int> *root) {
     }
 }
 
+Node<char> *postfixExpToTree(string exp)
+{
+    stack<Node<char> *> st;
+
+    for (int i = 0; i < exp.length(); i++)
+    {
+        Node<char> *tmp = new Node<char>(exp[i]);
+
+        if (charIsAnyOfThese(exp[i], "+-*/^"))
+        {
+            tmp->right = st.top();
+            st.pop();
+
+            if (!st.empty())
+            {
+                tmp->left = st.top();
+                st.pop();
+            }
+        }
+
+        st.push(tmp);
+    }
+
+    return st.top();
+}
+
 int main()
 {
 
-    vector<int> data = {3, 9, 20, 16, 15, 7, 4, 55};
+    // vector<int> data = {3, 9, 20, 16, 15, 7, 4, 55};
 
-    Node<int> *root = createTree(data);
+    // Node<int> *root = createTree(data);
 
-    drawTree(root);
-    cout << endl;    
+    // drawTree(root);
+    // cout << endl;
 
-    cout << searchElement(root, 97) << endl;
+    // cout << searchElement(root, 97) << endl;
+
+    drawTree(postfixExpToTree("31+2^74-2*+5-"));
+
+    // Node<char> *root = new Node<char>('a');
 
     return 0;
 }
